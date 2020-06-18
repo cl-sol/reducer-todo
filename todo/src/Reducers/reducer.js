@@ -1,5 +1,5 @@
 export const initialState = {
-    todo: [
+    task: [
         {
             item: "go to skatepark",
             completed: false,
@@ -25,7 +25,36 @@ export const initialState = {
 
 
 export const todoReducer = (state, action) => {
+    console.log(action);
     switch(action.type) {
+        case "ADD_TASK":
+            return {
+                ...state,
+                task: [...state.task,
+                action.payload]
+            }
+        
+        case "TOGGLE_COMPLETE":
+            return {
+                ...state,
+                task: state.task.map(e => {
+                    if (e.id === action.payload) {
+                        return {
+                            ...e,
+                            completed: !e.completed
+                        } 
+                    } else {
+                        return e;
+                        }
+                })
+            }
+
+        case "CLEAR":
+            return {
+                ...state,
+                task: state.task.filter(item => !item.completed)
+            }
+            
         default: return state;
     }
 }
